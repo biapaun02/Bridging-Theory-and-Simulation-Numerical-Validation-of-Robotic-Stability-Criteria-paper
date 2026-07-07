@@ -1,1 +1,0 @@
-# Bridging-Theory-and-Simulation-Numerical-Validation-of-Robotic-Stability-Criteria-paper
