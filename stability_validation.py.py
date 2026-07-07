@@ -1,26 +1,10 @@
-#!/usr/bin/env python3
-"""
-Bridging Theory and Simulation: Numerical Validation of Robotic Stability Criteria
-
-This script provides the complete computational verification workflow discussed 
-in the paper. It handles:
-1. Linearized state-space modeling around a robotic joint equilibrium.
-2. Local asymptotic stability verification via eigenvalue (pole) analysis.
-3. Solving the Continuous Lyapunov Equation (A^T * P + P * A = -Q).
-4. Time-domain step-response numerical integration using Runge-Kutta 45.
-5. Monotonic energy decay verification of the quadratic Lyapunov function V(x).
-
-Author: Păun Bianca-Teodora
-Repository: robotic-stability-analysis
-"""
-
 import numpy as np
 import scipy.linalg as la
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
 def run_stability_validation():
-    # --- 1. System Definition & State-Space Modeling ---
+    # 1. System Definition & State-Space Modeling 
     # Linearized representation of a 1-DOF robotic joint with feedback control.
     # State vector: x = [delta_q, delta_q_dot]^T (Position and Velocity Errors)
     
@@ -44,7 +28,7 @@ def run_stability_validation():
     print("Matrix B (Input Jacobian):\n", B)
     print("-" * 60)
 
-    # --- 2. Eigenvalue and Pole Location Analysis ---
+    # 2. Eigenvalue and Pole Location Analysis 
     eigenvalues = la.eigvals(A)
     print("\n--- 1. Eigenvalue Analysis (Classical Stability) ---")
     for i, lam in enumerate(eigenvalues):
@@ -57,7 +41,7 @@ def run_stability_validation():
         print("Warning: Unstable or marginally stable system poles detected.")
     print("-" * 60)
 
-    # --- 3. Lyapunov-Based Verification ---
+    # 3. Lyapunov-Based Verification 
     # Solving the Continuous Lyapunov Equation: A^T * P + P * A = -Q
     # Choose a symmetric positive-definite matrix Q (Identity matrix)
     Q = np.eye(2)
@@ -76,7 +60,7 @@ def run_stability_validation():
         print("Warning: Matrix P failure. Core assumptions violated.")
     print("-" * 60)
 
-    # --- 4. Numerical Trajectory Simulation ---
+    # 4. Numerical Trajectory Simulation
     # Simulating transient state recovery from an initial tracking error perturbation
     t_span = (0.0, 6.0)
     t_eval = np.linspace(t_span[0], t_span[1], 1000)
@@ -116,7 +100,7 @@ def run_stability_validation():
     print("Result: Monotonic energy decay confirmed numerically.")
     print("=" * 60)
 
-    # --- 5. Plot Generation and Asset Saving ---
+    # 5. Plot Generation and Asset Saving 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
     # Top Plot: Error Trajectories
